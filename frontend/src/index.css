@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm Dark Palette — rich, not flat */
+    --background: 224 20% 6%;        /* #0C0E14 deep ink */
+    --foreground: 38 28% 88%;        /* #EDE5D8 warm cream */
+    --card: 226 18% 9%;              /* #131620 elevated surface */
+    --card-foreground: 38 28% 88%;
+    --popover: 226 18% 9%;
+    --popover-foreground: 38 28% 88%;
+
+    /* Amber-gold accent — premium, not borrowed */
+    --primary: 38 72% 58%;           /* #D4A45A warm gold */
+    --primary-foreground: 224 20% 6%;
+    --secondary: 226 16% 12%;        /* #171A22 surface */
+    --secondary-foreground: 38 28% 88%;
+    --muted: 226 14% 16%;            /* #1D2029 muted surface */
+    --muted-foreground: 220 10% 44%; /* #686E7A */
+    --accent: 226 14% 16%;
+    --accent-foreground: 38 28% 88%;
+    --destructive: 4 72% 52%;        /* #D64434 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 226 14% 14%;           /* subtle border */
+    --input: 226 14% 14%;
+    --ring: 38 72% 58%;
+    --radius: 0.5rem;
+
+    /* Tier / semantic tokens */
+    --whale: 38 72% 58%;             /* Gold   #D4A45A */
+    --dolphin: 210 70% 58%;          /* Blue   #4A9DD4 */
+    --minnow: 158 50% 46%;           /* Teal   #3BAD82 */
+    --warning: 36 90% 54%;           /* Amber  #F5A623 */
+    --danger: 4 72% 52%;             /* Red    #D64434 */
+    --revenue: 260 60% 68%;          /* Violet #9B82D4 */
+    --success: 158 50% 46%;          /* Teal   #3BAD82 */
+
+    /* Typography */
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'DM Mono', 'Fira Code', monospace;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  /* Refined scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.3);
+  }
+}
+
+@layer components {
+  /* ── Fan Queue Card ── */
+  .queue-card {
+    @apply relative p-3 transition-all cursor-pointer;
+    border-left: 2px solid transparent;
+    background: transparent;
+  }
+  .queue-card:hover {
+    background: hsl(var(--secondary));
+  }
+  .queue-card.active {
+    background: hsl(var(--muted));
+    border-left-color: hsl(var(--primary));
+  }
+  .queue-card.whale  { border-left-color: hsl(var(--whale)); }
+  .queue-card.dolphin { border-left-color: hsl(var(--dolphin)); }
+  .queue-card.minnow { border-left-color: hsl(var(--minnow)); }
+
+  /* ── Scorcard badges ── */
+  .scorecard-badge {
+    @apply inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-medium tracking-wide;
+  }
+  .scorecard-badge.convert {
+    background: hsl(158 50% 46% / 0.12);
+    color: hsl(158 50% 60%);
+    border: 1px solid hsl(158 50% 46% / 0.2);
+  }
+  .scorecard-badge.mood {
+    background: hsl(210 70% 58% / 0.12);
+    color: hsl(210 70% 68%);
+    border: 1px solid hsl(210 70% 58% / 0.2);
+  }
+  .scorecard-badge.intent {
+    background: hsl(260 60% 68% / 0.12);
+    color: hsl(260 60% 74%);
+    border: 1px solid hsl(260 60% 68% / 0.2);
+  }
+
+  /* ── AI Draft Card ── */
+  .draft-card {
+    @apply rounded-xl border p-4;
+    background: hsl(var(--secondary));
+    border-color: hsl(var(--primary) / 0.2);
+  }
+  .draft-impact {
+    @apply rounded-lg px-3 py-2 text-sm font-medium;
+    background: hsl(var(--primary) / 0.1);
+    color: hsl(var(--primary));
+    border: 1px solid hsl(var(--primary) / 0.18);
+  }
+
+  /* ── Agency Pulse Bar ── */
+  .pulse-bar {
+    @apply flex items-center gap-6 px-5 py-2.5 text-xs;
+    background: hsl(var(--card));
+    border-bottom: 1px solid hsl(var(--border));
+    font-family: var(--font-sans);
+  }
+  .pulse-stat {
+    @apply flex items-center gap-1.5;
+  }
+  .pulse-stat-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
+  }
+  .pulse-stat-label {
+    color: hsl(var(--muted-foreground));
+    font-size: 11px;
+  }
+  .pulse-positive { color: hsl(var(--success)); }
+  .pulse-negative { color: hsl(var(--danger)); }
+
+  /* ── Action Buttons ── */
+  .btn-approve {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-all;
+    background: hsl(158 50% 46% / 0.15);
+    color: hsl(158 50% 60%);
+    border: 1px solid hsl(158 50% 46% / 0.25);
+  }
+  .btn-approve:hover {
+    background: hsl(158 50% 46% / 0.25);
+    border-color: hsl(158 50% 46% / 0.4);
+  }
+  .btn-reject {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-all;
+    background: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+    border: 1px solid hsl(var(--destructive) / 0.2);
+  }
+  .btn-reject:hover {
+    background: hsl(var(--destructive) / 0.2);
+  }
+  .btn-edit {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-all;
+    background: hsl(var(--secondary));
+    color: hsl(var(--muted-foreground));
+    border: 1px solid hsl(var(--border));
+  }
+  .btn-edit:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+
+  /* ── Status Badges ── */
+  .status-pending {
+    @apply rounded-full px-2 py-0.5 text-[11px] font-medium;
+    background: hsl(36 90% 54% / 0.12);
+    color: hsl(36 90% 64%);
+  }
+  .status-approved {
+    @apply rounded-full px-2 py-0.5 text-[11px] font-medium;
+    background: hsl(158 50% 46% / 0.12);
+    color: hsl(158 50% 58%);
+  }
+  .status-rejected {
+    @apply rounded-full px-2 py-0.5 text-[11px] font-medium;
+    background: hsl(4 72% 52% / 0.12);
+    color: hsl(4 72% 64%);
+  }
+  .status-reviewing {
+    @apply rounded-full px-2 py-0.5 text-[11px] font-medium;
+    background: hsl(210 70% 58% / 0.12);
+    color: hsl(210 70% 68%);
+  }
+
+  /* ── Tier Icon Colors ── */
+  .tier-whale   { color: hsl(var(--whale)); }
+  .tier-dolphin { color: hsl(var(--dolphin)); }
+  .tier-minnow  { color: hsl(var(--minnow)); }
+
+  /* ── Section Label ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* ── Monospace numbers ── */
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .font-mono-num {
+    font-family: var(--font-mono);
+    letter-spacing: -0.02em;
+  }
+}
+

@@ -1,0 +1,21 @@
+{
+  "name": "@gitwithme/backend",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "tsc",
+    "start": "NODE_ENV=production bun run src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "hono": "^4",
+    "@gitwithme/shared": "file:../packages/shared"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "bun-types": "^1"
+  }
+}
